@@ -5,6 +5,8 @@ TODO
 
 [ ] ler codigo martinho para ver como medidas de acuracia estão sendo calculadas
 
-[ ] dar push para o github 
+[x] dar push para o github 
 	- git remote add origin https://github.com/fjuniorr/ffeb-2015-resultados.git
 	- git push -u origin master
+
+[ ] anotar outliers em boxplot  
