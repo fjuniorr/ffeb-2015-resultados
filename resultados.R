@@ -151,6 +151,77 @@ tbl6 <- cbind(
 )
 
 # =============================================================
+# tabela 7
+
+dt_tbl7 <- dt[, .(ERRO_ABSOLUTO = sum(REALIZADO) - sum(PREVISTO)), by = c("ESTADO", "MODELO")]
+
+foo <- dt_tbl7[dt_tbl7[, .I[which.min(abs(ERRO_ABSOLUTO))], by=ESTADO]$V1][, .(ESTADO, MODELO)]
+best_model <- foo[, MODELO]
+names(best_model) <- foo[, ESTADO]
+
+dt_tbl7_1 <- dt[OBS %in% 1:12 & MODELO == best_model[ESTADO], 
+                .(REALIZADO_1 = sum(REALIZADO), 
+                  PREVISTO_1 = sum(PREVISTO)), 
+                by = ESTADO]
+
+dt_tbl7_2 <- dt[OBS %in% 5:16 & MODELO == best_model[ESTADO], 
+                .(REALIZADO_2 = sum(REALIZADO), 
+                  PREVISTO_2 = sum(PREVISTO)), 
+                by = ESTADO]
+
+dt_tbl7_3 <- dt[OBS %in% 9:20 & MODELO == best_model[ESTADO], 
+                .(REALIZADO_3 = sum(REALIZADO), 
+                  PREVISTO_3 = sum(PREVISTO)), 
+                by = ESTADO]
+
+l <- list(dt_tbl7_1, dt_tbl7_2, dt_tbl7_3)
+
+tbl7 <- Reduce(function(x,y){merge(x, y, by = "ESTADO", all = TRUE)}, l)
+
+# =============================================================
+# tabela 8
+
+dt_tbl8_1 <- dt[OBS %in% 1:12, .(ERRO_ABSOLUTO = sum(REALIZADO) - sum(PREVISTO)), by = c("ESTADO", "MODELO")]
+foo_1 <- dt_tbl8_1[dt_tbl8_1[, .I[which.min(abs(ERRO_ABSOLUTO))], by=ESTADO]$V1][, .(ESTADO, MODELO)]
+best_model_1 <- foo_1[, MODELO]
+names(best_model_1) <- foo_1[, ESTADO]
+
+dt_tbl8_1_1 <- dt[OBS %in% 1:12 & MODELO == best_model_1[ESTADO], 
+                .(REALIZADO_1 = sum(REALIZADO), 
+                  PREVISTO_1 = sum(PREVISTO)), 
+                by = ESTADO]
+
+
+
+dt_tbl8_2 <- dt[OBS %in% 5:16, .(ERRO_ABSOLUTO = sum(REALIZADO) - sum(PREVISTO)), by = c("ESTADO", "MODELO")]
+foo_2 <- dt_tbl8_2[dt_tbl8_2[, .I[which.min(abs(ERRO_ABSOLUTO))], by=ESTADO]$V1][, .(ESTADO, MODELO)]
+best_model_2 <- foo_2[, MODELO]
+names(best_model_2) <- foo_2[, ESTADO]
+
+dt_tbl8_1_2 <- dt[OBS %in% 5:16 & MODELO == best_model_2[ESTADO], 
+                .(REALIZADO_2 = sum(REALIZADO), 
+                  PREVISTO_2 = sum(PREVISTO)), 
+                by = ESTADO]
+
+
+
+dt_tbl8_3 <- dt[OBS %in% 9:20, .(ERRO_ABSOLUTO = sum(REALIZADO) - sum(PREVISTO)), by = c("ESTADO", "MODELO")]
+foo_3 <- dt_tbl8_3[dt_tbl8_3[, .I[which.min(abs(ERRO_ABSOLUTO))], by=ESTADO]$V1][, .(ESTADO, MODELO)]
+best_model_3 <- foo_3[, MODELO]
+names(best_model_3) <- foo_3[, ESTADO]
+
+dt_tbl8_1_3 <- dt[OBS %in% 9:20 & MODELO == best_model_3[ESTADO], 
+                .(REALIZADO_3 = sum(REALIZADO), 
+                  PREVISTO_3 = sum(PREVISTO)), 
+                by = ESTADO]
+
+best_model8 <- data.frame(cbind(best_model_1, best_model_2, best_model_3))
+
+l <- list(dt_tbl8_1_1, dt_tbl8_1_2, dt_tbl8_1_3)
+
+tbl8 <- Reduce(function(x,y){merge(x, y, by = "ESTADO", all = TRUE)}, l)
+
+# =============================================================
 # grafico 1
 
 dt_graf1 <- dt[, .(MAPE = mean(ERRO_PERCENTUAL_ABSOLUTO)*100), by = c("OBS", "MODELO")]
