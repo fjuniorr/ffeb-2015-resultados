@@ -18,8 +18,8 @@ dt[, TIPO_MODELO := tipo_modelo[MODELO]]
 
 # exclusao de outliers
 
-dt[ESTADO == "RR" & OBS == 3, REALIZADO := 31181553 + 119526428]
-dt[ESTADO == "RR" & OBS == 4, REALIZADO := 323744259 - 119526428]
+dt[ESTADO == "RR" & OBS == 3, REALIZADO := 31181553 + 121526428]
+dt[ESTADO == "RR" & OBS == 4, REALIZADO := 323744259 - 121526428]
 
 # calculo medidas acuracia
 
